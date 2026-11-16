@@ -8,4 +8,4 @@ SELECT
         WHEN status = '03' THEN 'Annulée'
         ELSE NULL
     END AS StatusDescription
-FROM bronze.orders
+FROM {{source('bronze', 'orders')}}

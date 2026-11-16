@@ -13,4 +13,4 @@ SELECT
     state,
     zipcode,
     updated_at
-FROM bronze.customers
+FROM {{source ('bronze', 'customers')}}
