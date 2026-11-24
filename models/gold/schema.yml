@@ -1,0 +1,31 @@
+version: 2
+
+models:
+  - name: profit_us
+    description: "美国地区按日汇总的营收、成本与利润表（含欧元换算）。"
+    columns:
+      - name: sales_date
+        description: "销售日期"
+      - name: total_revenue
+        description: "当日总营收（美元）"
+      - name: total_cost
+        description: "当日总采购成本（美元）"
+      - name: total_profit
+        description: "当日总利润（美元）"
+      - name: total_profit_eur
+        description: "当日总利润（按固定汇率换算为欧元，保留两位小数）"
+
+  - name: profit_uk
+    description: "英国地区按日汇总的营收、成本与利润表（含欧元换算）。"
+
+  - name: profit_india
+    description: "印度地区按日汇总的营收、成本与利润表（含欧元换算）。"
+
+  - name: orderitems_unique
+    description: "基于 silver.orders_items 按 orderitemid 去重后的唯一订单明细表，保留最新更新时间记录。"
+    columns:
+      - name: orderitemid
+        description: "订单明细唯一主键"
+        tests:
+          - unique
+          - not_null

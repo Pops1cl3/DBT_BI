@@ -31,6 +31,16 @@ clean-targets:         # directories to be removed by `dbt clean`
 # files using the `{{ config(...) }}` macro.
 models:
   dbt_tp:
+    +pre-hook: "INSERT INTO training.dbt_execution_logs (Model_name, Action, Inserted_at) VALUES ('{{ this.name }}', 'start', NOW())"
+    +post-hook: "INSERT INTO training.dbt_execution_logs (Model_name, Action, Inserted_at) VALUES ('{{ this.name }}', 'end', NOW())"
     # Config indicated by + and applies to all files under models/example/
     example:
       +materialized: view
+    gold:
+      +schema: gold
+      +materialized: table
+
+vars:
+  eur_rate_us: 0.8906    # US
+  eur_rate_uk: 1.1777    # UK
+  eur_rate_inde: 0.00926 # Inde

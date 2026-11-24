@@ -1,0 +1,43 @@
+version: 2
+
+sources:
+  - name: training_source   # 自定义源名称，后面写宏会用到
+    schema: training          # 替换为 training.sql 实际导入的数据库名
+    tables:
+      - name: sales_us      # 替换为实际表名
+      - name: sales_uk      # 替换为实际表名
+      - name: sales_india   # 替换为实际表名
+
+  - name: bronze
+    schema: bronze
+    tables:
+      - name: customers
+        description: "Fiche d'informations client originale"
+        columns:
+          - name: customerid
+            description: "Clé primaire"
+            tests:
+              - unique
+              - not_null
+
+      - name: orders
+        columns:
+          - name: orderid
+            tests:
+              - unique
+              - not_null
+          - name: customerid
+            tests:
+              - relationships:
+                  to: source('bronze', 'customers')
+                  field: customerid
+          - name: status
+            tests:
+              - accepted_values:
+                  values: ['02', '01', '03']
+
+      - name: orderitems
+      - name: employees
+      - name: stores
+      - name: suppliers
+      - name: products
